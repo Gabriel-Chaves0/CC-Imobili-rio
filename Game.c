@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 int dado();
 void exibirTabuleiro();
@@ -26,7 +27,7 @@ void exibirTabuleiro(){
     printf(" |Inicio| ");
 
     for (i = 0; i < 10; i++) {
-        printf(" |%d| ", i);
+        printf(" %d ", i);
     }
     // adicionar para receber struct do lote
     // printf("\n Você está na casa: %s", Lotes.nome)
