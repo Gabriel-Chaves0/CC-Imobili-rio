@@ -1,0 +1,26 @@
+Componentes do jogo:
+- Tabuleiro com 10 casas definidas em structs dentro de uma lista encadeada, sendo elas:
+    - 8 lotes disponiveis para compra
+    - 1 casa de inicio
+    - 1 casa de prisão
+- Dado digital baseado na função random do C
+- Carta de jogador structs pré definidas ( Maximo 4 )
+
+Regras basicas:
+- Cada jogador começa com 150 moedas
+- Sempre quando jogador passar pela casa inicio deve receber 20 moedas
+- Joga um dado de 1 a 4 (por conta do tabuleiro menor)
+- Ao cair em um lote sem dono, o jogador tem a opção de comprar o lote ou passar a vez
+- Ao cair em um lote com dono, jogador deve pagar o calor do aluguel ao dono do lote
+- (Talvez) Lote de ir para prisão
+- Casa da prisão (só pode sair quando tirar um 4)
+
+Funcionalidades necessárias:
+- Criar a ordem dos jogadores
+- Jogar os dados para andar pelo tabuleiro
+- Ao chegar na primeira casa do tabuleiro, o jogador recebe uma quantia X de dinheiro
+- Comprar os lotes do tabuleiro (Diminuir o patrimônio próprio e atribuir o lote ao comprador)
+- Vender os lotes do tabuleiro pertencentes a um jogador (Aumentar o patrimônio próprio e desatribuir o lote do - vendedor)
+- Pagar aluguel ao dono do lote (Aumenta patrimônio do dono e diminui do inquilino)
+- Ver o placar atual ( aqui que entra o algoritmo de odenação )
+- Desistir da partida ( Nó do jogador será elimidado )
