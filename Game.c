@@ -6,6 +6,9 @@ int dado();
 void exibirTabuleiro();
 
 int main() {
+
+    printf("\n\033[2J");
+    
     exibirTabuleiro();
 
     printf("\n Dado: %d", dado());
@@ -14,10 +17,10 @@ int main() {
 
 int dado(){
 
-  int numero;
-  srand((unsigned)time(NULL));
-  numero = rand() % 4 + 1;
-  return numero;
+    int numero;
+    srand((unsigned)time(NULL));
+     numero = rand() % 4 + 1;
+     return numero;
 
 }
 
