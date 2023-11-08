@@ -1,38 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include "functions.h"
 
-int dado();
-void exibirTabuleiro();
+int main(){
 
-int main() {
-
-    printf("\n\033[2J");
-    
-    exibirTabuleiro();
-
-    printf("\n Dado: %d", dado());
-
-}
-
-int dado(){
-
-    int numero;
-    srand((unsigned)time(NULL));
-     numero = rand() % 4 + 1;
-     return numero;
-
-}
-
-void exibirTabuleiro(){
-    int i;
-    char teste[] = "Brum"; 
-    printf(" |Inicio| ");
-
-    for (i = 0; i < 10; i++) {
-        printf(" %d ", i);
+    int j = 0;
+    Jogador jogadores[3];
+    for(int i = 0; i<4 ; i++){
+        printf("Digite o nome do jogadoror %d : ", i+1);
+        scanf("%s", jogadores[i].nome);
+        jogadores[i].id = i+1;
+        jogadores[i].dinheiro = 150;
+        jogadores[i].posicao = 0;
+        jogadores[i].falido = 0;
     }
-    // adicionar para receber struct do lote
-    // printf("\n Você está na casa: %s", Lotes.nome)
-    printf("\n Voce esta no lote: %s", teste);
+
+    while(1){
+        system("cls");
+    
+        printf("Vez de %s\n", jogadores[j].nome);
+        if(j==3){
+            j = -1;
+        }
+
+        int jogada;
+        exibirTabuleiro();
+        printf("\n[1]-Jogar dado \n[2]-Ver placar \n[3]- Desistir do jogo \nEscolha sua jogada: ");
+        scanf("%d", &jogada);
+
+        if(jogada == 1){
+            printf("\nDado: %d", dado());
+            scanf("%d", &jogada);
+        }else{
+            printf("funcionalidade nao desenvolvida");
+            scanf("%d", &jogada);
+        }
+
+        j++;
+    }
 }
