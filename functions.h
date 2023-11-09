@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define RESET      "\033[0m"
+#define BG_RED        "\033[41;37m"
+#define BG_GREEN      "\033[42;37m"
+#define BG_YELLOW     "\033[43;37m"
+#define BG_BLUE       "\033[44;37m"
+#define BG_MAGENTA    "\033[45;37m"
+#define BG_CYAN       "\033[46;37m"
+
 typedef struct lotes{
     int dono;
     int valor;
@@ -27,18 +35,7 @@ int dado(){
 
 }
 
-void exibirTabuleiro(){
-    int i;
-    char teste[] = "inicio"; 
-    printf(" |Inicio| ");
-
-    for (i = 0; i < 10; i++) {
-        printf(" %d ", i);
-    }
-    // adicionar para receber struct do lote
-    // printf("\n Você está na casa: %s", Lotes.nome)
-    printf("\n Voce esta no lote: %s", teste);
-}
+void exibirTabuleiro();
 
 void inserir_lotes(Lotes *head,int dono, int valor, int aluguel, char nome ); // adicionar todos os lotes do jogo
 void comprar_lote(Lotes *head, Jogador *player); // colocar dono no lote atual e tirar dinheiro do player atual
