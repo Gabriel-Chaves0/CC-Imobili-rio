@@ -13,65 +13,19 @@
 #define BG_MAGENTA    "\033[45;37m"
 #define BG_CYAN       "\033[46;37m"
 
-Jogador jogadores[3];
+void set_jogadores(Jogador jogadores[], int qntd_jogadores){
 
-void iniciar_jogo(){
-
-    int j = 0;
-    for(int i = 0; i<4 ; i++){
-        printf("Digite o nome do jogadoror %d : ", i+1);
+    for(int i = 0; i< qntd_jogadores ; i++){
+        printf("\nDigite o nome do jogadoror %d : ", i+1);
         scanf("%s", jogadores[i].nome);
         jogadores[i].id = i+1;
         jogadores[i].dinheiro = 150;
         jogadores[i].posicao = 0;
         jogadores[i].falido = 0;
     }
-
-    Lotes *lista = NULL;
-    Lotes *final_lista = NULL;
-
-    inserir_dados_lotes(&lista, &final_lista);
-   
-    while(1){
-
-        for(int j = 0; j<4; j++){
-            system("cls");
-        
-            printf("Vez de %s\n", jogadores[j].nome);
-
-            int jogada, trava;
-            exibirTabuleiro();
-            printf("\n[1]-Jogar dado \n[2]-Ver placar \n[3]- Desistir do jogo \nEscolha sua jogada: ");
-            scanf("%d", &jogada);
-
-            switch (jogada){
-                case 1:
-                    printf("Sua posicao atual: %d\n", jogadores[j].posicao);
-                    andar_tabuleiro(lista, jogadores[j]);
-                    printf("[1]Continuar: ");
-                    scanf("%d", &trava);
-                    break;
-                case 2:
-                    //placar();
-                    break;
-                case 3:
-                    //finalizar_jogo();
-                    break;
-                default:
-                    printf("Opcao invalida, digite outra\n");
-                    break;
-                }
-
-        }
-    }
-
 }
 
-void set_game(){
-    
-}
-
-int dado(){
+int jogar_dado(){
     int numero;
 
     printf("Jogando dado");
@@ -80,21 +34,49 @@ int dado(){
         printf(".");
     }
 
-    
     srand((unsigned)time(NULL));
     numero = rand() % 4 + 1;
     sleep(1);
-
-    printf("\nValor rolado: %d\n", numero);
+    
+    printf("%d\n", numero);
     return numero;
 
 }
 
-void exibirTabuleiro(){
-    int i; 
-    printf(" |Inicio| ");
+void inserir_dados_lotes(Lotes **lista, Lotes **final_lista) {
+    
+    const char *nomes_lotes[] = {"Inicio", "Varzea", "Cordeiro", "Torre","Madalena","Ilha do Retiro","Gracas","Jaqueira","Prisao","Casa Forte",
+    "Casa Amarela", "Boa Viagem", "Pina","Boa Vista", "Recife Antigo" };
 
-    for (i = 0; i < 15; i++) {
+    int valor_lotes[] = {0, 8, 10, 16, 14, 14, 12, 16, 0, 12, 12, 22, 20, 14, 16};
+
+    int valor_aluguel[] = {0, 4, 5, 8, 7, 7, 6, 8, 0, 6, 6, 11, 10, 7, 8};
+
+    for (int i = 0; i < 15; i++) {
+        Lotes *novo_lote;
+
+        novo_lote = (Lotes *)malloc(sizeof(Lotes));
+        novo_lote->dono = 0;
+        novo_lote->valor = valor_lotes[i];
+        novo_lote->aluguel = valor_aluguel[i];
+        strcpy(novo_lote->nome, nomes_lotes[i]);
+        
+        if((*lista) == NULL){
+            novo_lote->next = novo_lote;
+            *lista = novo_lote;
+            *final_lista = novo_lote; 
+        }else{
+            novo_lote->next = (*lista);  
+            (*final_lista)->next = novo_lote;  
+            *final_lista = novo_lote; 
+        }
+    }
+}
+
+void exibirTabuleiro(){
+    printf("| Inicio |");
+
+    for (int i = 0; i < 15; i++) {
         if(i>=0 && i<2){
             printf(BG_RED" %d |"RESET, i+1);
         }else if(i>=2 && i<5){
@@ -113,94 +95,13 @@ void exibirTabuleiro(){
     }
 }
 
-void inserir_dados_lotes(Lotes **lista, Lotes **final_lista) {
-    
-    const char *nomes_lotes[] = {
-        "Inicio",
-        "Varzea",
-        "Cordeiro",
-        "Torre",
-        "Madalena",
-        "Ilha do Retiro",
-        "Gracas",
-        "Jaqueira",
-        "Prisao",
-        "Casa Forte",
-        "Casa Amarela",
-        "Boa Viagem",
-        "Pina",
-        "Boa Vista",
-        "Recife Antigo"
-    };
-
-    int valor_lotes[] = {
-        0,
-        8,
-        10,
-        16,
-        14,
-        14,
-        12,
-        16,
-        0,
-        12,
-        12,
-        22,
-        20,
-        14,
-        16
-    };
-
-    int valor_aluguel[] = {
-        0,
-        4,
-        5,
-        8,
-        7,
-        7,
-        6,
-        8,
-        0,
-        6,
-        6,
-        11,
-        10,
-        7,
-        8
-    };
-
-    Lotes *novo_lote;
-    for (int i = 0; i < 15; i++) {
-        novo_lote = (Lotes *)malloc(sizeof(Lotes));
-        novo_lote->dono = 0;
-        novo_lote->valor = valor_lotes[i];
-        novo_lote->aluguel = valor_aluguel[i];
-        strcpy(novo_lote->nome, nomes_lotes[i]);
-        
-        if((*lista) == NULL){
-            novo_lote->next = novo_lote;
-            *lista = novo_lote;
-            *final_lista = novo_lote; 
-        }else{
-            novo_lote->next = (*lista);  // O novo nó aponta para a cabeça
-            (*final_lista)->next = novo_lote;  // O nó da cauda aponta para o novo nó
-            *final_lista = novo_lote; 
-        }
-    }
-}
-
-void andar_tabuleiro(Lotes *lote, Jogador jogador){
+void andar_tabuleiro(Lotes *lote, Jogador *jogador){
     Lotes *aux = lote;
-    int valor_dado = dado();
+    int valor_dado = jogar_dado();
 
-    if(jogador.posicao == 5){ //Verifica re o valor do dado rolado foi o maior / alterar a posição pra a posição da prisão
+    if((*jogador).posicao == 8){ //Verifica re o valor do dado rolado foi o maior / alterar a posição pra a posição da prisão
         if(valor_dado == 4){
-            valor_dado = dado(); //Joga o dado depois de sair da prisão
-
-            printf("Jogando dado...\n");
-            sleep(2);
-            printf("Valor rolado: %d\n", valor_dado);
-           
+            valor_dado = jogar_dado(); //Joga o dado depois de sair da prisão
         }
         else{
             printf("Voce nao saiu da prisao :(\n");
@@ -208,15 +109,17 @@ void andar_tabuleiro(Lotes *lote, Jogador jogador){
         }
     }
 
-    for(int i = 0; i < ((jogador.posicao)+valor_dado); i++){ //Ir até a posição do jogador e andar as casas
+    for(int i = 0; i < (((*jogador).posicao)+valor_dado); i++){ //Ir até a posição do jogador e andar as casas
         if(strcmp(aux->nome, "inicio") == 0){ //Mudar o valor a receber quando chegar ao início
-            jogador.dinheiro += 20; 
+            (*jogador).dinheiro += 20; 
         }
         aux = aux->next;
     } 
-    jogador.posicao += valor_dado; //Atualizando a posiçao do jogador
-    if(jogador.posicao >= 16){
-        jogador.posicao -= 15;
+
+    (*jogador).posicao += valor_dado; //Atualizando a posiçao do jogador
+
+    if((*jogador).posicao >= 16){
+        (*jogador).posicao -= 15;
     }
 
     //Prinando a casa em que o jogador caiu
@@ -224,24 +127,25 @@ void andar_tabuleiro(Lotes *lote, Jogador jogador){
         printf("Você foi preso :(\nPara sair da prisao, role 4 no dado no proximo turno\n");
     }
     else if(strcmp(aux->nome, "Inicio") == 0){
-        printf("Você está no início, apenas descance :)");
+        printf("Você está no início, apenas descance :)\n");
     }
     else{
-        printf("Dono: %d\nValor: %d\nAluguel: %d\nNome: %s\n\n", aux->dono, aux->valor, aux->aluguel, aux->nome);
+        printf("\nSua posicao atual: %d\n", (*jogador).posicao);
+        printf("Nome: %s\nDono: %d\nValor: %d\nAluguel: %d\n\n", aux->nome, aux->dono, aux->valor, aux->aluguel);
     }
 }
 
-void remover_jogador(Lotes *lote, Jogador jogador){
+void remover_jogador(Lotes *lote, Jogador *jogador){
     Lotes *aux = lote;
 
     for(int i = 0; i < 15; i++){ //Tirando o jogador como dono dos lotes que ele tem
-        if(aux->dono == jogador.id){
+        if(aux->dono == (*jogador).id){
             aux->dono = 0;
         } 
         aux = aux->next;
     }
 
-    jogador.falido = 1;
+    (*jogador).falido = 1;
 }
 
 void placar(Jogador jogadores[], int n){
