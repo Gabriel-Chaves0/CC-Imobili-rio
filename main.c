@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "functions.h"
 
-// gcc -o START game.c functions.c 
+// gcc -o START main.c functions.c 
 // ./START.exe
 
 int main(void){
@@ -39,7 +39,7 @@ int main(void){
                     exibirTabuleiro();
                     printf("\n\n");
                     andar_tabuleiro(lista, &jogadores[j]);
-                    printf("[1]Continuar: ");
+                    printf("[1]: ");
                     scanf("%d", &trava);
                     break;
                 case 2:

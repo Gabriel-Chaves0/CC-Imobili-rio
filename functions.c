@@ -29,7 +29,7 @@ int jogar_dado(){
     int numero;
 
     printf("Jogando dado");
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < 2; i++){
         sleep(1);
         printf(".");
     }
@@ -76,7 +76,7 @@ void inserir_dados_lotes(Lotes **lista, Lotes **final_lista) {
 void exibirTabuleiro(){
     printf("| Inicio |");
 
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 14; i++) {
         if(i>=0 && i<2){
             printf(BG_RED" %d |"RESET, i+1);
         }else if(i>=2 && i<5){
@@ -87,7 +87,7 @@ void exibirTabuleiro(){
             printf(BG_BLUE" %d |"RESET, i+1);
         }else if(i>=10 && i<12){
             printf(BG_MAGENTA" %d |"RESET, i+1);
-        }else if(i>=12 && i<15){
+        }else if(i>=12 && i<14){
             printf(BG_CYAN" %d |"RESET, i+1);
         }else{
             printf(" %d ", i+1);
@@ -110,8 +110,10 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador){
     }
 
     for(int i = 0; i < (((*jogador).posicao)+valor_dado); i++){ //Ir até a posição do jogador e andar as casas
-        if(strcmp(aux->nome, "inicio") == 0){ //Mudar o valor a receber quando chegar ao início
-            (*jogador).dinheiro += 20; 
+        if(strcmp(aux->nome, "Inicio") == 0){ //Mudar o valor a receber quando chegar ao início
+            printf("Passou pelo inicio, pegue suas 10 moedas de salario!!\n");
+            (*jogador).dinheiro += 10; 
+            sleep(1);
         }
         aux = aux->next;
     } 
@@ -127,12 +129,31 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador){
         printf("Você foi preso :(\nPara sair da prisao, role 4 no dado no proximo turno\n");
     }
     else if(strcmp(aux->nome, "Inicio") == 0){
-        printf("Você está no início, apenas descance :)\n");
+        printf("Voce esta no inicio, apenas descance :)\n");
     }
     else{
+        printf("Voce tem %d moedas", (*jogador).dinheiro);
         printf("\nSua posicao atual: %d\n", (*jogador).posicao);
         printf("Nome: %s\nDono: %d\nValor: %d\nAluguel: %d\n\n", aux->nome, aux->dono, aux->valor, aux->aluguel);
+        if(aux->dono == 0){
+            int comprar;
+            printf("[1]Comprar o lote\n[2]Passar a vez\n");
+            scanf("%d", &comprar);
+            if(comprar == 1){
+                comprar_lote(aux, &jogador);
+            }
+        //printf("Nome: %s\nDono: %d\nValor: %d\nAluguel: %d\n\n", aux->nome, aux->dono, aux->valor, aux->aluguel);
+        //printf("Voce tem %d moedas", (*jogador).dinheiro);
+        //scanf("%d", &comprar);
+        }
     }
+}
+
+void comprar_lote(Lotes *lote, Jogador **player){
+
+    lote->dono = (**player).id;
+    (**player).dinheiro = (**player).dinheiro-lote->valor;
+
 }
 
 void remover_jogador(Lotes *lote, Jogador *jogador){
