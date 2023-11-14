@@ -43,7 +43,7 @@ int main(void){
                     scanf("%d", &trava);
                     break;
                 case 2:
-                    //placar();
+                    placar(jogadores, qntd_jogadores);
                     break;
                 case 3:
                     //finalizar_jogo();

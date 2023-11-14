@@ -29,7 +29,7 @@ int jogar_dado(){
     int numero;
 
     printf("Jogando dado");
-    for(int i = 0; i < 2; i++){
+    for(int i = 0; i < 3; i++){
         sleep(1);
         printf(".");
     }
@@ -38,7 +38,7 @@ int jogar_dado(){
     numero = rand() % 4 + 1;
     sleep(1);
     
-    printf("%d\n", numero);
+    printf("%d\n\n", numero);
     return numero;
 
 }
@@ -109,14 +109,20 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador){
         }
     }
 
-    for(int i = 0; i < (((*jogador).posicao)+valor_dado); i++){ //Ir até a posição do jogador e andar as casas
+    for(int i = 0; i < (*jogador).posicao; i++){ //Ir até a posição do jogador
+        aux = aux->next;
+    }
+
+    for (int i = 0; i < valor_dado; i++){ //Andar as casas e checar se passou pelo início
         if(strcmp(aux->nome, "Inicio") == 0){ //Mudar o valor a receber quando chegar ao início
             printf("Passou pelo inicio, pegue suas 10 moedas de salario!!\n");
             (*jogador).dinheiro += 10; 
             sleep(1);
         }
+
         aux = aux->next;
-    } 
+    }
+    
 
     (*jogador).posicao += valor_dado; //Atualizando a posiçao do jogador
 
@@ -132,8 +138,8 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador){
         printf("Voce esta no inicio, apenas descance :)\n");
     }
     else{
-        printf("Voce tem %d moedas", (*jogador).dinheiro);
-        printf("\nSua posicao atual: %d\n", (*jogador).posicao);
+        printf("\nVoce tem %d moedas", (*jogador).dinheiro);
+        printf("\nSua posicao atual: %d\n\n", (*jogador).posicao);
         printf("Nome: %s\nDono: %d\nValor: %d\nAluguel: %d\n\n", aux->nome, aux->dono, aux->valor, aux->aluguel);
         if(aux->dono == 0){
             int comprar;
@@ -170,6 +176,8 @@ void remover_jogador(Lotes *lote, Jogador *jogador){
 }
 
 void placar(Jogador jogadores[], int n){
+    system("cls");
+
     for(int i = 0; i < n-1; i++){ //Ordenar os jogadores pelo dinheiro que eles tem
         for (int j = 0; j < n-i-1; j++){
             if (jogadores[j].dinheiro > jogadores[j+1].dinheiro){
@@ -182,7 +190,11 @@ void placar(Jogador jogadores[], int n){
 
     printf("|  Colocacao  |  Nome  |  Fortuna  |\n"); //Printar o placar
     for(int i = 0; i < n; i++){
-        printf("%d %s %d\n", i, jogadores[i].nome, jogadores[i].dinheiro);
+        printf("   %d             %s         %d\n", i+1, jogadores[i].nome, jogadores[i].dinheiro);
     }
     
+    int back;
+
+    printf("\nDigite [1] para voltar: ");
+    scanf("%d", &back);
 }
