@@ -35,7 +35,7 @@ int jogar_dado(){
     }
 
     srand((unsigned)time(NULL));
-    numero = rand() % 4 + 1;
+    numero = rand() % 1 + 1;
     sleep(1);
     
     printf("%d\n\n", numero);
@@ -52,6 +52,8 @@ void inserir_dados_lotes(Lotes **lista, Lotes **final_lista) {
 
     int valor_aluguel[] = {0, 4, 5, 8, 7, 7, 6, 8, 0, 6, 6, 11, 10, 7, 8};
 
+    int valor_casas[] = {0, 2, 3, 5, 4, 4, 3, 4, 0, 3, 3, 6, 6, 4, 5};
+
     for (int i = 0; i < 15; i++) {
         Lotes *novo_lote;
 
@@ -59,6 +61,8 @@ void inserir_dados_lotes(Lotes **lista, Lotes **final_lista) {
         novo_lote->dono = 0;
         novo_lote->valor = valor_lotes[i];
         novo_lote->aluguel = valor_aluguel[i];
+        novo_lote->casa = 0;
+        novo_lote->valor_casa = valor_casas[i];
         strcpy(novo_lote->nome, nomes_lotes[i]);
         
         if((*lista) == NULL){
@@ -83,8 +87,8 @@ void exibirTabuleiro(){
             printf(BG_GREEN" %d |"RESET, i+1);
         }else if(i>=5 && i<8){
             printf(BG_YELLOW" %d |"RESET, i+1);
-        }else if(i = 8){
-            printf("Prisão|");
+        }else if(i == 8){
+            printf("Prisao|");
         }else if(i>8 && i<10){
             printf(BG_BLUE" %d |"RESET, i+1);
         }else if(i>=10 && i<12){
@@ -142,7 +146,15 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador){
     else{
         printf("\nVoce tem %d moedas", (*jogador).dinheiro);
         printf("\nSua posicao atual: %d\n\n", (*jogador).posicao);
-        printf("Nome: %s\nDono: %d\nValor: %d\nAluguel: %d\n\n", aux->nome, aux->dono, aux->valor, aux->aluguel);
+        printf("Nome: %s\nDono: %d\nValor: %d\nAluguel: %d\nQuantidade de casas: \n\n", aux->nome, aux->dono, aux->valor, aux->aluguel, aux->casa);
+        if(aux->dono == (*jogador).id){
+            int construir;
+            printf("[1]Construir casa, valor: [%d]modeas\n[2]Passar a vez\n", aux->valor_casa);
+            scanf("%d", &construir);
+            if(construir == 1){
+                contruir_casa(aux, &jogador);
+            }
+        }
         if(aux->dono == 0){
             int comprar;
             printf("[1]Comprar o lote\n[2]Passar a vez\n");
@@ -150,14 +162,6 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador){
             if(comprar == 1){
                 comprar_lote(aux, &jogador);
             }
-        if(aux->dono == (*jogador).id){
-            int construir;
-            printf("[1]Construir casa\n[2]Passar a vez\n");
-            scanf("%d", &construir);
-            if(construir == 1){
-                contruir_casa(aux, &jogador);
-            }
-        }
         //printf("Nome: %s\nDono: %d\nValor: %d\nAluguel: %d\n\n", aux->nome, aux->dono, aux->valor, aux->aluguel);
         //printf("Voce tem %d moedas", (*jogador).dinheiro);
         //scanf("%d", &comprar);
@@ -180,15 +184,32 @@ void contruir_casa(Lotes *lote, Jogador **player){
         (**player).dinheiro = (**player).dinheiro-lote->valor_casa;
         lote->aluguel += (lote->aluguel/2);
     }else{
-        print("\nJá contruiu numero maximo de casas, digite 1 para continuar: ");
+        printf("\nJá contruiu numero maximo de casas, digite 1 para continuar: ");
         scanf("%d", trava);
     }
 
 }
 
-void pagar_aluguel(Lotes *lote, Jogador jogadores[]){
-    
+void pagar_aluguel(Lotes *lote, Jogador jogadores[], int valor){
+    Lotes *aux = lote;
+
+    for(int i = 0; i < jogadores[valor].posicao; i++){ //Ir até a posição do jogador
+        aux = aux->next;
+    }
+
+    int propietario = aux->dono;
+
+    if(propietario != jogadores[valor].id){
+        int pagar;
+        printf("Casa de outro jogador \n[1]Pagar o alguel de %d moedas\n[2]Desistir do jogo\n", aux->aluguel);
+        scanf("%d", pagar);
+        if(pagar == 1){
+            jogadores[propietario].dinheiro = jogadores[aux->dono].dinheiro +aux->aluguel;
+            jogadores[valor].dinheiro = jogadores[valor].dinheiro -aux->aluguel;
+        }
+    } 
 }
+
 void remover_jogador(Lotes *lote, Jogador *jogador){
     Lotes *aux = lote;
 
