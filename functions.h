@@ -25,5 +25,5 @@ void comprar_lote(Lotes *lote, Jogador **player); // colocar dono no lote atual 
 void contruir_casa(Lotes *lote, Jogador **player); // aumentar o numero de casas, tirar valor de contruir casa do dinheiro do jogador
 void pagar_aluguel(Lotes *lote, Jogador jogadores); // tirar dinheiro do player atual e colocar dinheiro para o dono
 void andar_tabuleiro(Lotes *lote, Jogador *jogador);// mudar a posição do jogador e verificar em qual casa ele caiu
-void placar();// exibir de forma orndenada o placar do jogo por moedas
-void remover_jogador(Lotes *lote, Jogador *jogador);//Remover Jogador da partida junto com todos seus lotes
+void placar(Jogador jogadores[], int n);// exibir de forma orndenada o placar do jogo por moedas
+void remover_jogador(Lotes *lote, Jogador *jogador); // remover o jogador da lista de jogadores 
