@@ -39,7 +39,8 @@ int main(void){
                     exibirTabuleiro();
                     printf("\n\n");
                     andar_tabuleiro(lista, &jogadores[j]);
-                    printf("[1]: ");
+                    pagar_aluguel(lista, jogadores);
+                    printf("trava: ");
                     scanf("%d", &trava);
                     break;
                 case 2:
