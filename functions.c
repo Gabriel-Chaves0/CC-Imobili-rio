@@ -35,7 +35,7 @@ int jogar_dado(){
     }
 
     srand((unsigned)time(NULL));
-    numero = rand() % 1 + 1;
+    numero = rand() % 4 + 1;
     sleep(1);
     
     printf("%d\n\n", numero);
@@ -190,22 +190,22 @@ void contruir_casa(Lotes *lote, Jogador **player){
 
 }
 
-void pagar_aluguel(Lotes *lote, Jogador jogadores[], int valor){
+void pagar_aluguel(Lotes *lote, Jogador *jogadores, Jogador *inquilino){
     Lotes *aux = lote;
 
-    for(int i = 0; i < jogadores[valor].posicao; i++){ //Ir até a posição do jogador
+    for(int i = 0; i < (*jogadores).posicao; i++){ //Ir até a posição do jogador
         aux = aux->next;
     }
 
     int propietario = aux->dono;
 
-    if(propietario != jogadores[valor].id){
+    if(propietario != (*jogadores).id){
         int pagar;
         printf("Casa de outro jogador \n[1]Pagar o alguel de %d moedas\n[2]Desistir do jogo\n", aux->aluguel);
-        scanf("%d", pagar);
+        scanf("%d", &pagar);
         if(pagar == 1){
-            jogadores[propietario].dinheiro = jogadores[aux->dono].dinheiro +aux->aluguel;
-            jogadores[valor].dinheiro = jogadores[valor].dinheiro -aux->aluguel;
+            (*inquilino).dinheiro = (*inquilino).dinheiro + aux->aluguel;
+            (*jogadores).dinheiro = (*jogadores).dinheiro - aux->aluguel;
         }
     } 
 }
@@ -245,4 +245,14 @@ void placar(Jogador jogadores[], int n){
 
     printf("\nDigite [1] para voltar: ");
     scanf("%d", &back);
+}
+
+int valor_dono(Lotes *lote, Jogador *jogador){
+    Lotes *aux = lote;
+
+    for(int i = 0; i < (*jogador).posicao; i++){ //Ir até a posição do jogador
+        aux = aux->next;
+    }
+
+    return aux->dono;
 }
