@@ -199,7 +199,7 @@ void pagar_aluguel(Lotes *lote, Jogador *jogadores, Jogador *inquilino){
 
     int propietario = aux->dono;
 
-    if(propietario != (*jogadores).id){
+    if(propietario != (*jogadores).id && propietario != 0){
         int pagar;
         printf("Casa de outro jogador \n[1]Pagar o alguel de %d moedas\n[2]Desistir do jogo\n", aux->aluguel);
         scanf("%d", &pagar);
@@ -228,10 +228,14 @@ void placar(Jogador jogadores[], int n){
 
     for(int i = 0; i < n-1; i++){ //Ordenar os jogadores pelo dinheiro que eles tem
         for (int j = 0; j < n-i-1; j++){
-            if (jogadores[j].dinheiro > jogadores[j+1].dinheiro){
-                int temp = jogadores[j].dinheiro;
+            if (jogadores[j].dinheiro < jogadores[j+1].dinheiro){
+                int temp_dinheiro = jogadores[j].dinheiro;
+                char temp_nome[50];          
+                strcpy(temp_nome,jogadores[j].nome);
+
                 jogadores[i] = jogadores[j+1];
-                jogadores[j+1].dinheiro = temp;
+                jogadores[j+1].dinheiro = temp_dinheiro;
+                strcpy(jogadores[j+1].nome,temp_nome);    
             }
         }
     }
@@ -241,10 +245,6 @@ void placar(Jogador jogadores[], int n){
         printf("   %d             %s         %d\n", i+1, jogadores[i].nome, jogadores[i].dinheiro);
     }
     
-    int back;
-
-    printf("\nDigite [1] para voltar: ");
-    scanf("%d", &back);
 }
 
 int valor_dono(Lotes *lote, Jogador *jogador){

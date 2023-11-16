@@ -30,21 +30,23 @@ int main(void){
             printf("\n\nVez de %s\n", jogadores[j].nome);
             printf("Posicao: %d\n", jogadores[j].posicao);  
 
-            printf("\n[1]- Jogar dado \n[2]- Ver placar \n[3]- Desistir do jogo \n\nEscolha sua jogada: ");
+            printf("\n[1]- Ver placar \n[2]- Jogar dado\n[3]- Desistir do jogo \n\nEscolha sua jogada: ");
             scanf("%d", &jogada);
+            int back;
 
             switch(jogada){
-                case 1:
+                case 1:      
+                    placar(jogadores, qntd_jogadores);
+                    printf("\nDigite [1] para jogar o dado: ");
+                    scanf("%d", &back);
+                case 2:
                     system("cls");
                     exibirTabuleiro();
                     printf("\n\n");
                     andar_tabuleiro(lista, &jogadores[j]);
                     pagar_aluguel(lista, &jogadores[j], &jogadores[valor_dono(lista, &jogadores[j])]);
                     printf("trava: ");
-                    scanf("%d", &trava);
-                    break;
-                case 2:
-                    placar(jogadores, qntd_jogadores);
+                    scanf("%d", &trava);                
                     break;
                 case 3:
                     //finalizar_jogo();
