@@ -14,9 +14,9 @@
 #define BG_CYAN       "\033[46;37m"
 
 void set_jogadores(Jogador jogadores[], int qntd_jogadores){
-
+    printf("\n");
     for(int i = 0; i< qntd_jogadores ; i++){
-        printf("\nDigite o nome do jogadoror %d : ", i+1);
+        printf("Digite o nome do jogadoror %d : ", i+1);
         scanf("%s", jogadores[i].nome);
         jogadores[i].id = i+1;
         jogadores[i].dinheiro = 150;
@@ -38,7 +38,7 @@ int jogar_dado(){
     numero = rand() % 4 + 1;
     sleep(1);
     
-    printf("%d\n\n", numero);
+    printf(" %d\n\n", numero);
     return numero;
 
 }
@@ -240,9 +240,10 @@ void placar(Jogador jogadores[], int n){
         }
     }
 
-    printf("|  Colocacao  |  Nome  |  Fortuna  |\n"); //Printar o placar
-    for(int i = 0; i < n; i++){
-        printf("   %d             %s         %d\n", i+1, jogadores[i].nome, jogadores[i].dinheiro);
+    printf("|  Colocacao  |  Nome            |  Fortuna  |\n");
+    printf("+--------------+------------------+------------+\n");
+    for (int i = 0; i < n; i++) {
+        printf("|   %-10d |  %-15s |  %-8d  |\n", i + 1, jogadores[i].nome, jogadores[i].dinheiro);
     }
     
 }
@@ -255,4 +256,9 @@ int valor_dono(Lotes *lote, Jogador *jogador){
     }
 
     return aux->dono;
+}
+
+void desistir_jogo(Jogador *jogador){
+    (*jogador).falido = 1;
+    printf("\nVoce desistiu do jogo :(");
 }

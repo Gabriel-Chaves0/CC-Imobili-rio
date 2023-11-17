@@ -28,3 +28,4 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador);// mudar a posição do joga
 void placar(Jogador jogadores[], int n);// exibir de forma orndenada o placar do jogo por moedas
 void remover_jogador(Lotes *lote, Jogador *jogador); // remover o jogador da lista de jogadores 
 int valor_dono(Lotes *lote, Jogador *jogador);;
+void desistir_jogo(Jogador *jogador); // remover o jogador da lista de jogadores e colocar o valor de falido como 1
