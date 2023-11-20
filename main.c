@@ -65,9 +65,7 @@ int main(void){
                     exibirTabuleiro();
                     printf("\n\n");
                     andar_tabuleiro(lista, &jogadores[j], primeira_roda);
-                    pagar_aluguel(lista, &jogadores[j], &jogadores[valor_dono(lista, &jogadores[j])]);
-                    printf("trava: ");
-                    scanf("%d", &trava);                
+                    pagar_aluguel(lista, &jogadores[j], &jogadores[valor_dono(lista, &jogadores[j])]);               
                     break;
 
                 case 3: //Desistir do jogo

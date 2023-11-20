@@ -27,7 +27,7 @@ void set_jogadores(Jogador jogadores[], int qntd_jogadores){ //Função para set
         printf("Digite o nome do jogador %d : ", i+1);
         scanf("%s", jogadores[i].nome);
         jogadores[i].id = i+1;
-        jogadores[i].dinheiro = 150;
+        jogadores[i].dinheiro = 120;
         jogadores[i].posicao = 0;
         jogadores[i].falido = 0;
     }
@@ -209,6 +209,7 @@ void remover_jogador(Lotes *lote, Jogador *jogador){
     }
 
     (*jogador).falido = 1;
+    (*jogador).dinheiro = 0;
 }
 
 void placar(Jogador jogadores[], int n){
