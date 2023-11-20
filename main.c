@@ -11,7 +11,7 @@ int main(void){
     Lotes *lista = NULL;
     Lotes *final_lista = NULL;
 
-    int jogada, trava, back;
+    int jogada, trava;
     int qntd_jogadores, qntd_falidos = 0;
     int primeira_roda = 1; //Variavel para verificar se é a primeira rodada do jogo
 
@@ -58,7 +58,7 @@ int main(void){
                 case 1: //Ver placar  
                     placar(jogadores, qntd_jogadores);
                     printf("\nDigite [1] para voltar: ");
-                    scanf("%d", &back);
+                    scanf("%d", &trava);
                     j--;
                     break;;
                     
@@ -83,10 +83,14 @@ int main(void){
 
                     if (qntd_falidos == qntd_jogadores-1){//Verifica se todos os jogadores desistiram do jogo e mostra o placar
                         placar(jogadores, qntd_jogadores);  
-                        printf("\n\nTodos os jogadores desistiram, fim de jogo\nObrigado por jogar!\n");
+                        printf("\n\nTodos os jogadores desistiram, fim de jogo\nObrigado por jogar!\n\n");
+        
+                        printf("[1] - Sair do jogo: ");
+                        scanf("%d", &trava);    
 
                         free_tabuleiro(lista);  
                         
+
                         return 0;
                     }
 

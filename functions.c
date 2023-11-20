@@ -103,6 +103,7 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador, int primeira_rodada){
         }
         else{
             printf("Voce nao saiu da prisao :(\n");
+            sleep(2);
             return;
         }
     }
@@ -130,9 +131,11 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador, int primeira_rodada){
     //Printando a casa em que o jogador caiu
     if(strcmp(aux->nome, "Prisao") == 0){
         printf("Voce foi preso :(\nPara sair da prisao, role 4 no dado no proximo turno\n");
+        sleep(2);
     }
     else if(strcmp(aux->nome, "Inicio") == 0){
         printf("Voce esta no inicio, apenas descance :)\n");
+        sleep(2);   
     }
     else{
         printf("\nVoce tem %d moedas", jogador->dinheiro);
