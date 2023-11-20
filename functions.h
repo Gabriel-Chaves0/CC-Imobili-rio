@@ -32,3 +32,4 @@ void desistir_jogo(Jogador *jogador); // remover o jogador da lista de jogadores
 void colorir_tabuleiro(int i); // colorir o tabuleiro
 void colorir_card(int i, Lotes *aux) ;// colorir os cards de acordo com a posição do jogador
 void colorir_placar(int i, Jogador jogadores[]); // colorir o placar
+void free_tabuleiro(Lotes *lista); // liberar a lista de lotes

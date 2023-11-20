@@ -96,7 +96,7 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador, int primeira_rodada){
     Lotes *aux = lote;
     int valor_dado = jogar_dado();
 
-    if((*jogador).posicao == 8){ //Verifica re o valor do dado rolado foi o maior / alterar a posição pra a posição da prisão
+    if(jogador->posicao == 8){ //Verifica re o valor do dado rolado foi o maior / alterar a posição pra a posição da prisão
         if(valor_dado == 4){
             printf("Voce saiu da prisao :)\n");
             valor_dado = jogar_dado(); //Joga o dado depois de sair da prisão
@@ -107,24 +107,24 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador, int primeira_rodada){
         }
     }
 
-    for(int i = 0; i < (*jogador).posicao; i++){ //Ir até a posição do jogador
+    for(int i = 0; i < jogador->posicao; i++){ //Ir até a posição do jogador
         aux = aux->next;
     }
 
     for (int i = 0; i < valor_dado; i++){ //Andar as casas e checar se passou pelo início
         if(strcmp(aux->nome, "Inicio") == 0 && primeira_rodada == 0){ //Mudar o valor a receber quando chegar ao início e não for a primeira rodada
             printf("Passou pelo inicio, pegue suas 10 moedas de salario!!\n");
-            (*jogador).dinheiro += 10; 
+            jogador->dinheiro += 10; 
             sleep(1);
         }
 
         aux = aux->next;
     }
     
-    (*jogador).posicao += valor_dado; //Atualizando a posiçao do jogador
+    jogador->posicao += valor_dado; //Atualizando a posiçao do jogador
 
-    if((*jogador).posicao >= 16){
-        (*jogador).posicao -= 15;
+    if(jogador->posicao >= 16){
+        jogador->posicao -= 15;
     }
 
     //Printando a casa em que o jogador caiu
@@ -135,12 +135,12 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador, int primeira_rodada){
         printf("Voce esta no inicio, apenas descance :)\n");
     }
     else{
-        printf("\nVoce tem %d moedas", (*jogador).dinheiro);
-        printf("\nSua posicao atual: %d\n\n", ((*jogador).posicao)-1);
+        printf("\nVoce tem %d moedas", jogador->dinheiro);
+        printf("\nSua posicao atual: %d\n\n", (jogador->posicao)-1);
 
-        colorir_card((*jogador).posicao, aux);
+        colorir_card(jogador->posicao, aux);
         
-        if(aux->dono == (*jogador).id){
+        if(aux->dono == jogador->id){
             int construir;
             printf("[1]Construir casa, valor: [%d]modeas\n[2]Passar a vez\n", aux->valor_casa);
             scanf("%d", &construir);
@@ -202,60 +202,64 @@ void remover_jogador(Lotes *lote, Jogador *jogador){
     Lotes *aux = lote;
 
     for(int i = 0; i < 15; i++){ //Tirando o jogador como dono dos lotes que ele tem
-        if(aux->dono == (*jogador).id){
+        if(aux->dono == jogador->id){
             aux->dono = 0;
         } 
         aux = aux->next;
     }
 
-    (*jogador).falido = 1;
-    (*jogador).dinheiro = 0;
+    jogador->falido = 1;
+    jogador->dinheiro = 0;
 }
 
-void placar(Jogador jogadores[], int n){
+void placar(Jogador jogadores[], int n) {
     system("cls");
 
-    //Colocar jogadores falidos em baixo dos não falidos
-    for(int i = 0; i < n-1; i++){
-        for(int j = 0; j < n-i-1; j++){
-            if(jogadores[j].falido > jogadores[j+1].falido){
-                Jogador aux = jogadores[j];
-                jogadores[j] = jogadores[j+1];
-                jogadores[j+1] = aux;
+    Jogador jogadoresAux[n];  //Criar uma lista auxiliar 
+
+    for(int i = 0; i < n; i++){
+        jogadoresAux[i] = jogadores[i];
+    }
+    
+    for(int i = 0; i < n - 1; i++){ //Colocar jogadores falidos em baixo dos não falidos
+        for(int j = 0; j < n - i - 1; j++){
+            if (jogadoresAux[j].falido > jogadoresAux[j + 1].falido){
+                Jogador aux = jogadoresAux[j];
+                jogadoresAux[j] = jogadoresAux[j + 1];
+                jogadoresAux[j + 1] = aux;
             }
         }
     }
     
-    for(int i = 0; i < n-1; i++){ //Ordenar os jogadores pelo dinheiro que eles tem
-        for (int j = 0; j < n-i-1; j++){
-            if (jogadores[j].dinheiro < jogadores[j+1].dinheiro){
-                Jogador aux = jogadores[j];
-                jogadores[j] = jogadores[j+1];
-                jogadores[j+1] = aux;
-                  
+    for(int i = 0; i < n - 1; i++){ //Ordenar os jogadores pelo dinheiro que eles têm
+        for(int j = 0; j < n - i - 1; j++){
+            if(jogadoresAux[j].dinheiro < jogadoresAux[j+1].dinheiro){
+                Jogador aux = jogadoresAux[j];
+                jogadoresAux[j] = jogadoresAux[j+1];
+                jogadoresAux[j+1] = aux;
             }
         }
     }
 
-    printf("|  Colocacao   |  Nome            |  Fortuna   |\n"); //Printar o placar 
+    printf("|  Colocacao   |  Nome            |  Fortuna   |\n");
     printf("+--------------+------------------+------------+\n");
-    for (int i = 0; i < n; i++) {
-        colorir_placar(i, jogadores);
+    for(int i = 0; i < n; i++){
+        colorir_placar(i, jogadoresAux); 
     }
-    
 }
+
 
 int valor_dono(Lotes *lote, Jogador *jogador){
     Lotes *aux = lote;
 
-    for(int i = 0; i < (*jogador).posicao; i++){ //Ir até a posição do jogador
+    for(int i = 0; i < jogador->posicao; i++){ //Ir até a posição do jogador
         aux = aux->next;
     }
     return aux->dono;
 }
 
 void desistir_jogo(Jogador *jogador){
-    (*jogador).falido = 1;
+    jogador->falido = 1;
 }
 
 void colorir_tabuleiro(int i){
@@ -328,4 +332,16 @@ void colorir_placar(int i, Jogador jogadores[]){
     printf(" %-8d  |\n", jogadores[i].dinheiro);
 
     printf(RESET);
+}
+
+void free_tabuleiro(Lotes *lista){
+
+    Lotes *temp;
+
+    while(temp != NULL){
+        
+        temp = lista;
+        lista = lista->next;
+        free(temp);
+    }
 }

@@ -57,40 +57,45 @@ int main(void){
             switch(jogada){
                 case 1: //Ver placar  
                     placar(jogadores, qntd_jogadores);
-                    printf("\nDigite [1] para jogar o dado: ");
+                    printf("\nDigite [1] para voltar: ");
                     scanf("%d", &back);
-
+                    j--;
+                    break;;
+                    
                 case 2://Jogar dado e andar no tabuleiro 
                     system("cls");
                     exibirTabuleiro();
                     printf("\n\n");
                     andar_tabuleiro(lista, &jogadores[j], primeira_roda);
-                    pagar_aluguel(lista, &jogadores[j], &jogadores[valor_dono(lista, &jogadores[j])]);               
+                    pagar_aluguel(lista, &jogadores[j], &jogadores[valor_dono(lista, &jogadores[j])]);    
+
+                    if (jogadores[j].dinheiro <= 0){//Verifica se o jogador faliu
+                        remover_jogador(lista, &jogadores[j]);
+                        qntd_falidos++;
+                    }
+
                     break;
 
                 case 3: //Desistir do jogo
                     desistir_jogo(&jogadores[j]);
                     remover_jogador(lista, &jogadores[j]);  
                     qntd_falidos++;
+
+                    if (qntd_falidos == qntd_jogadores-1){//Verifica se todos os jogadores desistiram do jogo e mostra o placar
+                        placar(jogadores, qntd_jogadores);  
+                        printf("\n\nTodos os jogadores desistiram, fim de jogo\nObrigado por jogar!\n");
+
+                        free_tabuleiro(lista);  
+                        
+                        return 0;
+                    }
+
                     break;
 
                 default://Caso o jogador digite uma opção invalida
                     printf("Opcao invalida, digite outra\n");
                     j--;
                     break;
-                }
-
-
-                if (jogadores[j].dinheiro <= 0){//Verifica se o jogador faliu
-                    remover_jogador(lista, &jogadores[j]);
-                    qntd_falidos++;
-                }
-                
-                if (qntd_falidos == qntd_jogadores-1){//Verifica se todos os jogadores desistiram do jogo e mostra o placar
-                    placar(jogadores, qntd_jogadores);  
-                    printf("\n\nTodos os jogadores desistiram, fim de jogo\nObrigado por jogar!\n");
-                    
-                    return 0;
                 }
         }
         primeira_roda = 0;
