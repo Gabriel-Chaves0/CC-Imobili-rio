@@ -4,7 +4,7 @@
 
 // gcc -o START main.c functions.c 
 // ./START.exe
-
+//fewfewfwf
 int main(void){
     system("cls");
     
