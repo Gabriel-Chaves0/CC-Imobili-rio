@@ -193,7 +193,7 @@ void pagar_aluguel(Lotes *lote, Jogador *jogadores, Jogador *inquilino){
 
     if(propietario != (*jogadores).id && propietario != 0){
         int pagar;
-        printf("Casa de outro jogador \n[1]Pagar o alguel de %d moedas\n[2]Desistir do jogo\n", aux->aluguel);
+        printf("Casa de outro jogador \n[1]Pagar o alguel de %d moedas: ", aux->aluguel);
         scanf("%d", &pagar);
         if(pagar == 1){
             (*inquilino).dinheiro = (*inquilino).dinheiro + aux->aluguel;
