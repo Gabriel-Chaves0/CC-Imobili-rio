@@ -155,7 +155,8 @@ void andar_tabuleiro(Lotes *lote, Jogador *jogador, int primeira_rodada){
             int comprar;
 
             printf("[1]Comprar o lote\n[2]Passar a vez\n");
-            if(scanf("%d", &comprar) == 1){
+            scanf("%d", &comprar);
+            if(comprar == 1){
                 comprar_lote(aux, &jogador);
             }
         }
